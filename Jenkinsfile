@@ -22,7 +22,7 @@ pipeline {
                 git branch: 'testing-1', url: 'https://github.com/VaibhavchavanDevOps/Three-tier-angular-dotnet-sql-application-23.git'
             }
 		}
-    //stage('Build Backend Docker Image') {
+        //stage('Build Backend Docker Image') {
           //  steps {
             //    script {
                     // Replace 'backend' with the path to the backend Dockerfile
@@ -100,10 +100,7 @@ pipeline {
                   sh 'docker push ${FRONTEND_IMAGE}:latest'
             }
         }
-		}
-        
-  }
-      stage('Deploy to GKE') {
+		stage('Deploy to GKE') {
             steps {
                 script {
                     // Authenticate with GKE
@@ -132,76 +129,5 @@ pipeline {
 					}
 				}
 			}
-}
-
-
-pipeline {
-    agent any
-
-	triggers {
-        githubPush() // Trigger the pipeline when a push event occurs
     }
-    environment {
-        DOCKER_HUB_CREDENTIALS = credentials('docker')
-        FRONTEND_IMAGE = 'vaibhavnitor/frontend-23.1'
-        //BACKEND_IMAGE = 'vaibhavnitor/backend-image'
-        //DATABASE_IMAGE = 'vaibhavnitor/database-image'
-        // GKE Cluster Details
-        GKE_CLUSTER_NAME = 'my-first-cluster-1'
-        GKE_ZONE = 'us-central1-c'
-        GKE_PROJECT = 'my-project-dotnet-445205'
-		
-
-    }
-        }
-        //stage('Clean Up Docker Containers') {
-          //  steps {
-            //    script {
-                    // Stop all running containers
-              //      sh 'docker stop $(docker ps -q) || true'
-                    
-                    // Remove all containers, including stopped ones
-                //    sh 'docker rm $(docker ps -a -q) || true'
-                //}
-            //}
-        //}
-        //stage('Install gke-gcloud-auth-plugin') {
-          //  steps {
-            //    script {
-                    // Install gke-gcloud-auth-plugin
-              //      sh 'gcloud components install gke-gcloud-auth-plugin'
-                //}
-            //}
-        //}
-        stage('Deploy to GKE') {
-            steps {
-                script {
-                    // Authenticate with GKE
-                    withCredentials([file(credentialsId: 'gke-credentials', variable: 'GKE_CREDENTIALS')]) {
-                        // Authenticate with GCloud
-                        sh '''
-                            gcloud auth activate-service-account --key-file=${GKE_CREDENTIALS}
-                            gcloud config set project ${GKE_PROJECT}
-                            gcloud container clusters get-credentials ${GKE_CLUSTER_NAME} --zone ${GKE_ZONE}
-                        '''
-                        
-                        // Deploy to GKE
-                        sh '''
-                            kubectl apply -f manifest/frontend.yaml
-                            kubectl apply -f manifest/frontend-service.yaml
-                            
-                        '''
-                        
-                        // Verify deployments
-                        sh '''
-                            kubectl get deployments
-                            kubectl get services
-                            kubectl get pods
-                        '''
-						}
-					}
-				}
-			}
-  }
-}
-
+}    
