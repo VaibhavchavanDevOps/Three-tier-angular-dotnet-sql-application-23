@@ -6,14 +6,12 @@ pipeline {
     }
     environment {
         DOCKER_HUB_CREDENTIALS = credentials('docker')
-        FRONTEND_IMAGE = 'vaibhavnitor/frontend-23.1'
-        BACKEND_IMAGE = 'vaibhavnitor/backend-30.1'
+        FRONTEND_IMAGE = 'vaibhavnitor/frontend-30.1'
+        BACKEND_IMAGE = 'vaibhavnitor/backend-23.2'
         // GKE Cluster Details
         GKE_CLUSTER_NAME = 'my-first-cluster-1'
         GKE_ZONE = 'us-central1-c'
         GKE_PROJECT = 'my-project-dotnet-445205'
-		
-
     }
 
     stages {
