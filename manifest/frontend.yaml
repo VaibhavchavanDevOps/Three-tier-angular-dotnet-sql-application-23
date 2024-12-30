@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: vaibhavnitor/frontend-23.1:latest
+        image: vaibhavnitor/frontend-30.3:latest
         ports:
         - containerPort: 80
         env:
