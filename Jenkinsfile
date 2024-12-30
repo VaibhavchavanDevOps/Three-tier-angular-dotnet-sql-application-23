@@ -7,7 +7,7 @@ pipeline {
     environment {
         DOCKER_HUB_CREDENTIALS = credentials('docker')
         FRONTEND_IMAGE = 'vaibhavnitor/frontend-23.1'
-        BACKEND_IMAGE = 'vaibhavnitor/backend-23.2'
+        BACKEND_IMAGE = 'vaibhavnitor/backend-30.1'
         // GKE Cluster Details
         GKE_CLUSTER_NAME = 'my-first-cluster-1'
         GKE_ZONE = 'us-central1-c'
