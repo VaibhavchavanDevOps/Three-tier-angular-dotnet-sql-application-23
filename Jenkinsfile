@@ -6,44 +6,49 @@ pipeline {
     }
     environment {
         DOCKER_HUB_CREDENTIALS = credentials('docker')
-        FRONTEND_IMAGE = 'vaibhavnitor/frontend-gcp'
-        BACKEND_IMAGE = 'vaibhavnitor/backend-gcp'
+        FRONTEND_IMAGE = 'vaibhavnitor/frontend-1'
+        BACKEND_IMAGE = 'vaibhavnitor/backend-1'
         // GKE Cluster Details
         GKE_CLUSTER_NAME = 'my-first-cluster-1'
         GKE_ZONE = 'us-central1-c'
-        GKE_PROJECT = 'poc-cluster-443705'
+        GKE_PROJECT = 'my-project-dotnet-445205'
+		
+
     }
 
     stages {
         stage('Checkout from Git'){
             steps{
-                git branch: 'testing_secret_gcp', url: 'https://github.com/VaibhavchavanDevOps/Three-tier-angular-dotnet-sql-application-23.git'
+                git branch: 'frontend', url: 'https://github.com/VaibhavchavanDevOps/Three-tier-angular-dotnet-sql-application-23-testing.git'
             }
 		}
-        //stage('Build Backend Docker Image') {
-          //  steps {
-            //    script {
-                    // Replace 'backend' with the path to the backend Dockerfile
-              //      sh 'docker  build -t ${BACKEND_IMAGE}:latest  ElectricEquipmentDotNetCoreAPI'
-                //}
-            //}
-        //}
+
+        stage('Build Frontend Docker Image') {
+            steps {
+                script {
+                    //Replace 'frontend' with the path to the frontend Dockerfile
+                    sh 'docker  build -t ${FRONTEND_IMAGE}:latest  ElectronicEquipmentAngular'
+                }
+            }
+        }
 		//stage("TRIVY"){
           //  steps{
+            //    sh "trivy image ${FRONTEND_IMAGE}:latest "
 			//	sh "trivy image ${BACKEND_IMAGE}:latest "
+			//	sh "trivy image ${DATABASE_IMAGE}:latest "
             //}
         //}
-        //stage('Push Images to Docker Hub') {
-          //  steps {
-            //  script {
-              //  withCredentials([usernamePassword(credentialsId: 'docker', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {          sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
+        stage('Push Images to Docker Hub') {
+            steps {
+              script {
+                withCredentials([usernamePassword(credentialsId: 'docker', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {          sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
  
                 // Push the Docker images
-                //sh 'docker push ${BACKEND_IMAGE}:latest'
-            //}
-        //}
-		//}
-      //  }
+                sh 'docker push ${FRONTEND_IMAGE}:latest'
+                     }
+                    }
+		        }
+        }
         stage('Deploy backend to  GKE') {
             steps {
                 script {
@@ -58,9 +63,8 @@ pipeline {
                         
                         // Deploy to GKE
                         sh '''
-                            kubectl apply -f manifest/backend.yaml
-                            kubectl apply -f manifest/backend-service.yaml
-                            kubectl apply -f manifest/NetworkPolicy.yaml
+                            kubectl apply -f manifest/frontend.yaml
+                            kubectl apply -f manifest/frontend-service.yaml
                             
                         '''
                         
@@ -70,9 +74,10 @@ pipeline {
                             kubectl get services
                             kubectl get pods
                         '''
-						}
+						
 					}
 				}
 			}
+        }  
     }
 }
