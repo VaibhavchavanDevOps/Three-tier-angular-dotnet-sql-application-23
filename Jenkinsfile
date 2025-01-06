@@ -6,8 +6,8 @@ pipeline {
     }
     environment {
         DOCKER_HUB_CREDENTIALS = credentials('docker')
-        FRONTEND_IMAGE = 'vaibhavnitor/frontend-gcp'
-        BACKEND_IMAGE = 'vaibhavnitor/backend-gcp'
+        FRONTEND_IMAGE = 'vaibhavnitor/frontend-v.6.5'
+        BACKEND_IMAGE = 'vaibhavnitor/backend-v.6.5'
         // GKE Cluster Details
         GKE_CLUSTER_NAME = 'my-first-cluster-1'
         GKE_ZONE = 'us-central1-c'
@@ -59,7 +59,7 @@ pipeline {
                         // Deploy to GKE
                         sh '''
                             kubectl apply -f manifest/secret.yaml
-			    kubectl apply -f manifest/backend.yaml
+			                kubectl apply -f manifest/backend.yaml
                             kubectl apply -f manifest/backend-service.yaml
                             kubectl apply -f manifest/NetworkPolicy.yaml
                             
