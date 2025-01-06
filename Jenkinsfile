@@ -58,7 +58,8 @@ pipeline {
                         
                         // Deploy to GKE
                         sh '''
-                            kubectl apply -f manifest/backend.yaml
+                            kubectl apply -f manifest/secret.yaml
+			    kubectl apply -f manifest/backend.yaml
                             kubectl apply -f manifest/backend-service.yaml
                             kubectl apply -f manifest/NetworkPolicy.yaml
                             
