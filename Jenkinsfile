@@ -6,12 +6,12 @@ pipeline {
     }
     environment {
         DOCKER_HUB_CREDENTIALS = credentials('docker')
-        FRONTEND_IMAGE = 'vaibhavnitor/frontend-gcp'
-        BACKEND_IMAGE = 'vaibhavnitor/backend-gcp'
+        FRONTEND_IMAGE = 'vaibhavnitor/frontend-v.6.5'
+        BACKEND_IMAGE = 'vaibhavnitor/backend-v.6.5'
         // GKE Cluster Details
         GKE_CLUSTER_NAME = 'my-first-cluster-1'
         GKE_ZONE = 'us-central1-c'
-        GKE_PROJECT = 'my-project-dotnet-445205'
+        GKE_PROJECT = 'poc-cluster-443705'
 		
 
     }
@@ -19,7 +19,7 @@ pipeline {
     stages {
         stage('Checkout from Git'){
             steps{
-                git branch: 'frontend', url: 'https://github.com/VaibhavchavanDevOps/Three-tier-angular-dotnet-sql-application-23-testing.git'
+                git branch: 'testing_secret_gcp_frontend', url: 'https://github.com/VaibhavchavanDevOps/Three-tier-angular-dotnet-sql-application-23.git'
             }
 		}
 
