@@ -20,30 +20,30 @@ pipeline {
                 git branch: 'testing_secret_gcp', url: 'https://github.com/VaibhavchavanDevOps/Three-tier-angular-dotnet-sql-application-23.git'
             }
 		}
-        //stage('Build Backend Docker Image') {
-          //  steps {
-            //    script {
+        stage('Build Backend Docker Image') {
+          steps {
+              script {
                     // Replace 'backend' with the path to the backend Dockerfile
-              //      sh 'docker  build -t ${BACKEND_IMAGE}:latest  ElectricEquipmentDotNetCoreAPI'
-                //}
-            //}
-        //}
+                    sh 'docker  build -t ${BACKEND_IMAGE}:latest  ElectricEquipmentDotNetCoreAPI'
+                }
+            }
+        }
 		//stage("TRIVY"){
           //  steps{
 			//	sh "trivy image ${BACKEND_IMAGE}:latest "
             //}
         //}
-        //stage('Push Images to Docker Hub') {
-          //  steps {
-            //  script {
-              //  withCredentials([usernamePassword(credentialsId: 'docker', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {          sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
+        stage('Push Images to Docker Hub') {
+            steps {
+              script {
+                withCredentials([usernamePassword(credentialsId: 'docker', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {          sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
  
                 // Push the Docker images
-                //sh 'docker push ${BACKEND_IMAGE}:latest'
-            //}
-        //}
-		//}
-      //  }
+                sh 'docker push ${BACKEND_IMAGE}:latest'
+            }
+        }
+		}
+        }
         stage('Deploy backend to  GKE') {
             steps {
                 script {
