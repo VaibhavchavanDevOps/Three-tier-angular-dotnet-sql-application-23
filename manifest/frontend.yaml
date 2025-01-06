@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: vaibhavnitor/frontend-gcp:latest
+        image: vaibhavnitor/frontend-v.6.5:latest
         ports:
         - containerPort: 80
         env:
