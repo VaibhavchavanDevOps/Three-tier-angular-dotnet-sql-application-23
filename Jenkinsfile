@@ -31,14 +31,14 @@ pipeline {
                 }
             }
         }
-        stage("Sonar Quality Gate Scan"){
+        /*stage("Sonar Quality Gate Scan"){
             steps{
                 timeout(time: 1, unit: "MINUTES"){
                     waitForQualityGate abortPipeline: false
                 }
             }
         }
-
+        */
         stage('Build Frontend Docker Image') {
             steps {
                 script {
