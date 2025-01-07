@@ -13,7 +13,6 @@ pipeline {
         GKE_ZONE = 'us-central1-c'
         GKE_PROJECT = 'poc-cluster-443705'
         SONAR_HOME = tool "sonar"
-        TRIVY_REPORT = "${env.WORKSPACE}/reports/trivy-report.json"
 		
 
     }
@@ -46,22 +45,10 @@ pipeline {
                     sh 'docker  build -t ${FRONTEND_IMAGE}:latest  ElectronicEquipmentAngular'
                 }
             }
-        }
-        /*stage('Trivy Scan') {
-            steps {
-                script {
-                    // Scan frontend image and save the report
-                    sh "mkdir -p ${env.WORKSPACE}/reports"
-                    sh "trivy image --format json -output /var/lib/jenkins/workspace/frontend-wb-02/reports/trivy-report.json vaibhavnitor/frontend-v.6.5"
-                    //sh "trivy image --format json ${env.FRONTEND_IMAGE} > ${env.TRIVY_REPORT}"
-                }
-            }
-        } 
-        */      
+        }     
 		stage("TRIVY"){
             steps{
-               sh "trivy image ${FRONTEND_IMAGE}:latest "
-			//	sh "trivy image ${BACKEND_IMAGE}:latest "
+               sh "trivy image ${FRONTEND_IMAGE}:latest"
             }
         }
         stage('Push Images to Docker Hub') {
