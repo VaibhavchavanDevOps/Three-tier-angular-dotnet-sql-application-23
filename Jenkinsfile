@@ -12,6 +12,8 @@ pipeline {
         GKE_CLUSTER_NAME = 'my-first-cluster-1'
         GKE_ZONE = 'us-central1-c'
         GKE_PROJECT = 'poc-cluster-443705'
+        SONAR_HOME = tool "sonar"
+        TRIVY_REPORT = "${env.WORKSPACE}/reports/trivy-report.json"
 		
 
     }
@@ -22,6 +24,20 @@ pipeline {
                 git branch: 'testing_secret_gcp_frontend', url: 'https://github.com/VaibhavchavanDevOps/Three-tier-angular-dotnet-sql-application-23.git'
             }
 		}
+        stage("SonarQube Quality Analysis"){
+            steps{
+                withSonarQubeEnv("sonar"){
+                    sh "$SONAR_HOME/bin/sonar-scanner -Dsonar.projectName=Three-tier -Dsonar.projectKey=Three-tier-angular-dotnet-sql-application-23"
+                }
+            }
+        }
+        stage("Sonar Quality Gate Scan"){
+            steps{
+                timeout(time: 2, unit: "MINUTES"){
+                    waitForQualityGate abortPipeline: false
+                }
+            }
+        }
 
         stage('Build Frontend Docker Image') {
             steps {
@@ -31,6 +47,16 @@ pipeline {
                 }
             }
         }
+        stage('Trivy Scan') {
+            steps {
+                script {
+                    // Scan frontend image and save the report
+                    sh "mkdir -p ${env.WORKSPACE}/reports"
+                    sh "echo '### Frontend Image Scan ###' > ${TRIVY_REPORT}"
+                    sh "trivy image --format json ${env.FRONTEND_IMAGE} > ${env.TRIVY_REPORT}"
+                }
+            }
+        }       
 		//stage("TRIVY"){
           //  steps{
             //    sh "trivy image ${FRONTEND_IMAGE}:latest "
