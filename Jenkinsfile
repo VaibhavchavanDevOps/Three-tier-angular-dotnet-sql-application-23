@@ -47,7 +47,7 @@ pipeline {
                 }
             }
         }
-        stage('Trivy Scan') {
+        /*stage('Trivy Scan') {
             steps {
                 script {
                     // Scan frontend image and save the report
@@ -56,14 +56,14 @@ pipeline {
                     //sh "trivy image --format json ${env.FRONTEND_IMAGE} > ${env.TRIVY_REPORT}"
                 }
             }
-        }       
-		//stage("TRIVY"){
-          //  steps{
-            //    sh "trivy image ${FRONTEND_IMAGE}:latest "
+        } 
+        */      
+		stage("TRIVY"){
+            steps{
+               sh "trivy image ${FRONTEND_IMAGE}:latest "
 			//	sh "trivy image ${BACKEND_IMAGE}:latest "
-			//	sh "trivy image ${DATABASE_IMAGE}:latest "
-            //}
-        //}
+            }
+        }
         stage('Push Images to Docker Hub') {
             steps {
               script {
