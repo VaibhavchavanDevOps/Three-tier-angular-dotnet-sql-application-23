@@ -52,7 +52,7 @@ pipeline {
                 script {
                     // Scan frontend image and save the report
                     sh "mkdir -p ${env.WORKSPACE}/reports"
-                    sh "trivy image --format json -o /var/lib/jenkins/workspace/frontend-wb-02/reports/trivy-report.json vaibhavnitor/frontend-v.6.5"
+                    sh "trivy image --format json -output /var/lib/jenkins/workspace/frontend-wb-02/reports/trivy-report.json vaibhavnitor/frontend-v.6.5"
                     //sh "trivy image --format json ${env.FRONTEND_IMAGE} > ${env.TRIVY_REPORT}"
                 }
             }
