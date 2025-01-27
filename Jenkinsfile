@@ -10,7 +10,7 @@ pipeline {
         BACKEND_IMAGE = 'vaibhavnitor/backend-v.6.5'
         // GKE Cluster Details
         GKE_CLUSTER_NAME = 'my-first-cluster'
-        GKE_ZONE = 'us-central1-c'
+        GKE_ZONE = 'us-central1-a'
         GKE_PROJECT = 'poc-cluster-443705'
     }
 
