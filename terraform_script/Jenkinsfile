@@ -29,13 +29,15 @@ pipeline {
 
         stage('Terraform Init') {
             steps {
-                dir('/terraform_script') {
+                dir('terraform_script') {
                 script {
                     // Initialize Terraform
                     sh 'terraform init'
                 }
+                }    
             }
         }
+            
 
         stage('Terraform Plan') {
             steps {
