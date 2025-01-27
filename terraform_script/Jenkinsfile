@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Checkout from Git'){
             steps{
-                git branch: 'main', url: 'https://github.com/VaibhavchavanDevOps/terraform_script.git'
+                git branch: 'terraform_final', url: 'https://github.com/VaibhavchavanDevOps/Three-tier-angular-dotnet-sql-application-23.git'
                     }
         }
         stage('Setup') {
@@ -29,6 +29,7 @@ pipeline {
 
         stage('Terraform Init') {
             steps {
+                dir('/terraform_script') {
                 script {
                     // Initialize Terraform
                     sh 'terraform init'
@@ -38,26 +39,30 @@ pipeline {
 
         stage('Terraform Plan') {
             steps {
+                dir('terraform_script') {
                 script {
                     // Create Terraform plan
                     sh 'terraform plan -out=tfplan'
+                }
                 }
             }
         }
 
         stage('Terraform Apply') {
             steps {
+                dir('terraform_script') {
                 script {
                     // Apply Terraform plan
                     sh 'terraform apply -auto-approve tfplan'
                 }
+                }
             }
-        }
+        }    
         stage('Update Configurations') {
             steps {
                 script {
                     // Run the Python script to update configurations
-                    sh 'python3 /python_scripts/update_sql_ip_all.py
+                    sh 'python3 /python_scripts/update_sql_ip_all.py'
                 }
             }
         }
