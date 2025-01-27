@@ -57,7 +57,7 @@ pipeline {
             steps {
                 script {
                     // Run the Python script to update configurations
-                    sh 'python3 /'
+                    sh 'python3 /python_scripts/update_sql_ip_all.py
                 }
             }
         }
