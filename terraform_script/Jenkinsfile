@@ -53,12 +53,20 @@ pipeline {
                 }
             }
         }
+        stage('Update Configurations') {
+            steps {
+                script {
+                    // Run the Python script to update configurations
+                    sh 'python3 /'
+                }
+            }
+        }
     }
+}
 
     post {
         always {
             // Clean up workspace
             cleanWs()
         }
-    }
-}
+     }
