@@ -62,11 +62,13 @@ pipeline {
         }    
         stage('Update Configurations') {
             steps {
+                dir('terraform_script') {
                 script {
                     // Run the Python script to update configurations
-                    sh 'python3 /python_scripts/update_sql_ip_all.py'
+                    sh 'python3 update_sql_ip_all.py'
                 }
             }
+            }    
         }
     }
 }
