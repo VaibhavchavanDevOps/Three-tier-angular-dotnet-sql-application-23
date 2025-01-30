@@ -4,7 +4,7 @@ resource "google_compute_network" "vpc_network" {
 }
 
 resource "google_compute_subnetwork" "subnet" {
-  name          = "subnet"
+  name          = "subnet-1"
   region        = var.region
   network       = google_compute_network.vpc_network.name
   ip_cidr_range = var.subnet_cidr
