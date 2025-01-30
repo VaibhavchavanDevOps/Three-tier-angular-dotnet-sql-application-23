@@ -1,5 +1,5 @@
 resource "google_sql_database_instance" "instance" {
-  name             = "sqlserver-instance"
+  name             = "sqlserver"
   region           = "us-central1"
   database_version = "SQLSERVER_2019_STANDARD"
   root_password    = "vaibhavchavan"
