@@ -34,10 +34,9 @@ pipeline {
                     // Initialize Terraform
                     sh 'terraform init'
                 }
-                }    
+                }
             }
         }
-            
 
         stage('Terraform Plan') {
             steps {
@@ -60,18 +59,33 @@ pipeline {
                 }
             }
         }    
+        /*stage('Update Configurations') {
+            steps {
+                script {
+                    // Run the Python script to update configurations
+                    sh 'python3 /python_scripts/update_sql_ip_all.py'
+                }
+            }
+        }
+        */
         stage('Update Configurations') {
             steps {
                 dir('terraform_script') {
                 script {
+                    // Print the current working directory
+                    //sh 'pwd'
+                    // List files in the current directory
+                    //sh 'ls -la'
                     // Run the Python script to update configurations
-                    sh 'python3 update_sql_ip_all.py'
+                    sh 'sudo chmod 777 /home/vrchavan02/Three-tier-angular-dotnet-sql-application-23/ElectricEquipmentDotNetCoreAPI/appsettings.json'
+                    sh 'sudo chmod 777 /home/vrchavan02/Three-tier-angular-dotnet-sql-application-23/manifest/secret.yaml'
+                    sh 'sudo chmod 777 update_sql_ip_all.py'
+                    sh 'sudo python3 update_sql_ip_all.py'
                 }
             }
-            }    
         }
     }
-}
+    }
 
     post {
         always {
@@ -79,3 +93,5 @@ pipeline {
             cleanWs()
         }
      }
+     
+} 
