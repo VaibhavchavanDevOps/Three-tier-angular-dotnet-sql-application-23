@@ -1,5 +1,5 @@
 resource "google_container_cluster" "primary" {
-  name               = "my-cluster"
+  name               = "my-cluster-1"
   location           = var.zone
   initial_node_count = 2
   node_config {
