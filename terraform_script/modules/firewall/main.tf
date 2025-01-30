@@ -1,5 +1,5 @@
 resource "google_compute_firewall" "allow_http_https" {
-  name    = "allow-http-https"
+  name    = "allow-all-http-https"
   network = var.network_name
 
   allow {
